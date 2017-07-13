@@ -2972,10 +2972,6 @@ webpack-dev-server@^2.5.1:
     webpack-dev-middleware "^1.11.0"
     yargs "^6.0.0"
 
-webpack-library-starter-ymmt@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/webpack-library-starter-ymmt/-/webpack-library-starter-ymmt-0.3.0.tgz#0a0a1fe35339267d87fcb521523ccb9140ca21d2"
-
 webpack-sources@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.0.1.tgz#c7356436a4d13123be2e2426a05d1dad9cbe65cf"
