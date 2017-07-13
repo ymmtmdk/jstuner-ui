@@ -1,14 +1,12 @@
 import { Note, Pitcher } from 'pitch-detector';
 
 export class JsTunerUI{
-  private readonly audioContext;
   private readonly canvas;
   private readonly canvasContext;
   private readonly hzElement;
   private readonly noteElement;
 
   constructor(element){
-    console.log(element);
     this.canvas = document.createElement("canvas");
     this.hzElement = document.createElement("div");
     this.noteElement = document.createElement("div");
@@ -16,7 +14,6 @@ export class JsTunerUI{
     element.appendChild(this.hzElement);
     element.appendChild(this.noteElement);
     this.canvasContext = this.canvas.getContext("2d");
-    this.audioContext = new AudioContext();
   }
 
   setPixel(imageData, x: number, y: number, color) {
@@ -72,6 +69,26 @@ export class JsTunerUI{
     this.canvasContext.putImageData(imageData, 0, 0);
   };
 
+  draw(wave, hz, note){
+    if (wave){
+      this.drawWave(wave, note);
+    }
+    if (!(hz >= 30)) {
+      return;
+    }
+    this.hzElement.innerHTML = 'hz = ' + hz;
+    this.noteElement.innerHTML = 'note = ' + note.name();
+  }
+}
+
+export class Recorder{
+  private readonly audioContext;
+  onData;
+
+  constructor(){
+    this.audioContext = new AudioContext();
+  }
+
   connectRecorder(stream) {
     const bufferSize = 2048;
     const recorder = this.audioContext.createScriptProcessor(bufferSize, 2, 2);
@@ -84,12 +101,9 @@ export class JsTunerUI{
       const left = e.inputBuffer.getChannelData(0);
       const hz = Pitcher.pitch(left, this.audioContext.sampleRate);
       const note = new Note(hz);
-      this.drawWave(left, note);
-      if (!(hz >= 30)) {
-        return;
+      if (this.onData){
+        this.onData(left, hz, note);
       }
-      this.hzElement.innerHTML = 'hz = ' + hz;
-      this.noteElement.innerHTML = 'note = ' + note.name();
     };
     const input = this.audioContext.createMediaStreamSource(stream);
     input.connect(recorder);
@@ -117,4 +131,12 @@ export class JsTunerUI{
     );
   }
 }
+/*
+      this.drawWave(left, note);
+      if (!(hz >= 30)) {
+        return;
+      }
+      this.hzElement.innerHTML = 'hz = ' + hz;
+      this.noteElement.innerHTML = 'note = ' + note.name();
 
+ */

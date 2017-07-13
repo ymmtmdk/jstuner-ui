@@ -79,12 +79,28 @@ return /******/ (function(modules) { // webpackBootstrap
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_pitch_detector__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index__ = __webpack_require__(1);
+
+window.onload = () => {
+    const ui = new __WEBPACK_IMPORTED_MODULE_0__index__["a" /* JsTunerUI */](document.getElementById("tuner"));
+    const recorder = new __WEBPACK_IMPORTED_MODULE_0__index__["b" /* Recorder */]();
+    recorder.onData = (wave, hz, note) => {
+        ui.draw(wave, hz, note);
+    };
+    recorder.main();
+};
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_pitch_detector__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_pitch_detector___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_pitch_detector__);
 
 class JsTunerUI {
     constructor(element) {
-        console.log(element);
         this.canvas = document.createElement("canvas");
         this.hzElement = document.createElement("div");
         this.noteElement = document.createElement("div");
@@ -92,7 +108,6 @@ class JsTunerUI {
         element.appendChild(this.hzElement);
         element.appendChild(this.noteElement);
         this.canvasContext = this.canvas.getContext("2d");
-        this.audioContext = new AudioContext();
     }
     setPixel(imageData, x, y, color) {
         const width = imageData.width;
@@ -144,6 +159,23 @@ class JsTunerUI {
         this.canvasContext.putImageData(imageData, 0, 0);
     }
     ;
+    draw(wave, hz, note) {
+        if (wave) {
+            this.drawWave(wave, note);
+        }
+        if (!(hz >= 30)) {
+            return;
+        }
+        this.hzElement.innerHTML = 'hz = ' + hz;
+        this.noteElement.innerHTML = 'note = ' + note.name();
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = JsTunerUI;
+
+class Recorder {
+    constructor() {
+        this.audioContext = new AudioContext();
+    }
     connectRecorder(stream) {
         const bufferSize = 2048;
         const recorder = this.audioContext.createScriptProcessor(bufferSize, 2, 2);
@@ -156,12 +188,9 @@ class JsTunerUI {
             const left = e.inputBuffer.getChannelData(0);
             const hz = __WEBPACK_IMPORTED_MODULE_0_pitch_detector__["Pitcher"].pitch(left, this.audioContext.sampleRate);
             const note = new __WEBPACK_IMPORTED_MODULE_0_pitch_detector__["Note"](hz);
-            this.drawWave(left, note);
-            if (!(hz >= 30)) {
-                return;
+            if (this.onData) {
+                this.onData(left, hz, note);
             }
-            this.hzElement.innerHTML = 'hz = ' + hz;
-            this.noteElement.innerHTML = 'note = ' + note.name();
         };
         const input = this.audioContext.createMediaStreamSource(stream);
         input.connect(recorder);
@@ -184,12 +213,21 @@ class JsTunerUI {
         nav.getUserMedia({ audio: true }, this.connectRecorder.bind(this), () => alert("error capturing audio."));
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["JsTunerUI"] = JsTunerUI;
+/* harmony export (immutable) */ __webpack_exports__["b"] = Recorder;
 
+/*
+      this.drawWave(left, note);
+      if (!(hz >= 30)) {
+        return;
+      }
+      this.hzElement.innerHTML = 'hz = ' + hz;
+      this.noteElement.innerHTML = 'note = ' + note.name();
+
+ */
 
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {

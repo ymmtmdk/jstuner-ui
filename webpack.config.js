@@ -2,9 +2,10 @@ const path = require('path');
 
 const libraryName = 'bundle';
 const outputFile = libraryName + '.js';
+const entryFile = process.env.NODE_ENV === 'dev' ? "./src/main.ts" : "./src/index.ts";
 
 module.exports = {
-  entry: "./src/index.ts",
+  entry: entryFile,
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: outputFile,
