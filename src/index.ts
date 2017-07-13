@@ -1,6 +1,6 @@
 import { Note, Pitcher } from 'pitch-detector';
 
-export class JsTuner{
+export class JsTunerUI{
   private readonly audioContext;
   private readonly canvas;
   private readonly canvasContext;
