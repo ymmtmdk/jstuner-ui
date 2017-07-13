@@ -79,24 +79,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index__ = __webpack_require__(1);
-
-window.onload = () => {
-    const ui = new __WEBPACK_IMPORTED_MODULE_0__index__["a" /* JsTunerUI */](document.getElementById("tuner"));
-    const recorder = new __WEBPACK_IMPORTED_MODULE_0__index__["b" /* Recorder */]();
-    recorder.onData = (wave, hz, note) => {
-        ui.draw(wave, hz, note);
-    };
-    recorder.main();
-};
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_pitch_detector__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_pitch_detector__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_pitch_detector___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_pitch_detector__);
 
 class JsTunerUI {
@@ -170,7 +153,7 @@ class JsTunerUI {
         this.noteElement.innerHTML = 'note = ' + note.name();
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = JsTunerUI;
+/* harmony export (immutable) */ __webpack_exports__["JsTunerUI"] = JsTunerUI;
 
 class Recorder {
     constructor() {
@@ -213,7 +196,7 @@ class Recorder {
         nav.getUserMedia({ audio: true }, this.connectRecorder.bind(this), () => alert("error capturing audio."));
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["b"] = Recorder;
+/* harmony export (immutable) */ __webpack_exports__["Recorder"] = Recorder;
 
 /*
       this.drawWave(left, note);
@@ -227,7 +210,7 @@ class Recorder {
 
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
