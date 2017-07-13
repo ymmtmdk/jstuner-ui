@@ -69,15 +69,13 @@ export class JsTunerUI{
     this.canvasContext.putImageData(imageData, 0, 0);
   };
 
-  draw(wave, hz, note){
+  draw(wave, hz){
+    const note = new Note(hz);
     if (wave){
       this.drawWave(wave, note);
     }
-    if (!(hz >= 30)) {
-      return;
-    }
     this.hzElement.innerHTML = 'hz = ' + hz;
-    this.noteElement.innerHTML = 'note = ' + note.name();
+    this.noteElement.innerHTML = 'note = ' + (hz<30 ? "" : note.name());
   }
 }
 
@@ -100,9 +98,8 @@ export class Recorder{
       }
       const left = e.inputBuffer.getChannelData(0);
       const hz = Pitcher.pitch(left, this.audioContext.sampleRate);
-      const note = new Note(hz);
       if (this.onData){
-        this.onData(left, hz, note);
+        this.onData(left, hz);
       }
     };
     const input = this.audioContext.createMediaStreamSource(stream);
@@ -131,12 +128,4 @@ export class Recorder{
     );
   }
 }
-/*
-      this.drawWave(left, note);
-      if (!(hz >= 30)) {
-        return;
-      }
-      this.hzElement.innerHTML = 'hz = ' + hz;
-      this.noteElement.innerHTML = 'note = ' + note.name();
 
- */
