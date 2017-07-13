@@ -1,6 +1,6 @@
-import { JsTuner } from './index';
+import { JsTunerUI } from './index';
 
 window.onload = () => {
-  (new JsTuner(document.getElementById("tuner"))).main();
+  (new JsTunerUI(document.getElementById("tuner"))).main();
 };
 

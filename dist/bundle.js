@@ -82,7 +82,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_pitch_detector__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_pitch_detector___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_pitch_detector__);
 
-class JsTuner {
+class JsTunerUI {
     constructor(element) {
         console.log(element);
         this.canvas = document.createElement("canvas");
@@ -184,7 +184,7 @@ class JsTuner {
         nav.getUserMedia({ audio: true }, this.connectRecorder.bind(this), () => alert("error capturing audio."));
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["JsTuner"] = JsTuner;
+/* harmony export (immutable) */ __webpack_exports__["JsTunerUI"] = JsTunerUI;
 
 
 
