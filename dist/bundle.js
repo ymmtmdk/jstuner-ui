@@ -142,15 +142,13 @@ class JsTunerUI {
         this.canvasContext.putImageData(imageData, 0, 0);
     }
     ;
-    draw(wave, hz, note) {
+    draw(wave, hz) {
+        const note = new __WEBPACK_IMPORTED_MODULE_0_pitch_detector__["Note"](hz);
         if (wave) {
             this.drawWave(wave, note);
         }
-        if (!(hz >= 30)) {
-            return;
-        }
         this.hzElement.innerHTML = 'hz = ' + hz;
-        this.noteElement.innerHTML = 'note = ' + note.name();
+        this.noteElement.innerHTML = 'note = ' + (hz < 30 ? "" : note.name());
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["JsTunerUI"] = JsTunerUI;
@@ -170,9 +168,8 @@ class Recorder {
             }
             const left = e.inputBuffer.getChannelData(0);
             const hz = __WEBPACK_IMPORTED_MODULE_0_pitch_detector__["Pitcher"].pitch(left, this.audioContext.sampleRate);
-            const note = new __WEBPACK_IMPORTED_MODULE_0_pitch_detector__["Note"](hz);
             if (this.onData) {
-                this.onData(left, hz, note);
+                this.onData(left, hz);
             }
         };
         const input = this.audioContext.createMediaStreamSource(stream);
@@ -198,15 +195,6 @@ class Recorder {
 }
 /* harmony export (immutable) */ __webpack_exports__["Recorder"] = Recorder;
 
-/*
-      this.drawWave(left, note);
-      if (!(hz >= 30)) {
-        return;
-      }
-      this.hzElement.innerHTML = 'hz = ' + hz;
-      this.noteElement.innerHTML = 'note = ' + note.name();
-
- */
 
 
 /***/ }),
